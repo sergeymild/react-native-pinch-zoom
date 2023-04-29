@@ -5,6 +5,7 @@ Replicate easily the Instagram zooming feature for React Native
 
 
 ![](./preview.gif)
+[Example](https://github.com/sergeymild/react-native-pinch-zoom/blob/main/example/src/App.tsx)
 
 ## Installation
 
