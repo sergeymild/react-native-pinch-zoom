@@ -16,6 +16,7 @@ const LINKING_ERROR =
 interface PinchZoomProps extends PropsWithChildren<any> {
   style?: StyleProp<ViewStyle>;
   disableScrollViewOnPinch?: boolean;
+  doubleTapEnabled?: boolean;
 }
 
 const ComponentName = 'PinchZoomView';

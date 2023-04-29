@@ -6,6 +6,8 @@ import {
   FlatList,
   ListRenderItemInfo,
   StyleSheet,
+  Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import Video from 'react-native-video';
@@ -42,14 +44,18 @@ export default function App() {
     }
     if (info.item === 'view') {
       Component = (
-        <View
-          style={{ width: '100%', height: '100%', backgroundColor: 'red' }}
-        />
+        <View style={{ width: '100%', height: '100%', backgroundColor: 'red' }}>
+          <TouchableOpacity onPress={() => console.log('tap')}>
+            <Text>Tap onme</Text>
+          </TouchableOpacity>
+        </View>
       );
     }
     return (
       <PinchZoomView
         disableScrollViewOnPinch
+        doubleTapEnabled={true}
+        onDoubleTap={() => console.log('[============----.]')}
         style={{
           marginBottom: 20,
           width: Dimensions.get('window').width - 32,

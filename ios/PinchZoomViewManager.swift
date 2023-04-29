@@ -16,6 +16,19 @@ class PinchZoomViewManager: RCTViewManager {
 class PinchZoomView : ZoomableView {
     @objc
     var disableScrollViewOnPinch: Bool = false
+    @objc
+    var onDoubleTap: RCTDirectEventBlock? = nil
+    @objc
+    var doubleTapEnabled: Bool = false {
+        didSet {
+            if !doubleTapEnabled { onPanDoubleTap = nil }
+            else {
+                onPanDoubleTap = { [weak self] in
+                    self?.onDoubleTap?([:])
+                }
+            }
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
