@@ -4,7 +4,7 @@
 Replicate easily the Instagram zooming feature for React Native
 
 
-![](./ezgif-3-657bb85fc2.gif)
+![](./preview.gif)
 
 ## Installation
 
