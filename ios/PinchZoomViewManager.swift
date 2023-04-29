@@ -1,8 +1,10 @@
+import React
+
 @objc(PinchZoomViewManager)
 class PinchZoomViewManager: RCTViewManager {
 
   override func view() -> (PinchZoomView) {
-    return PinchZoomView()
+      return PinchZoomView(frame: .zero)
   }
 
   @objc override static func requiresMainQueueSetup() -> Bool {
@@ -10,27 +12,28 @@ class PinchZoomViewManager: RCTViewManager {
   }
 }
 
-class PinchZoomView : UIView {
-
-  @objc var color: String = "" {
-    didSet {
-      self.backgroundColor = hexStringToUIColor(hexColor: color)
+@objc
+class PinchZoomView : ZoomableView {
+    @objc
+    var disableScrollViewOnPinch: Bool = false
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        isZoomable = true
+        isEnableZoom = true
     }
-  }
-
-  func hexStringToUIColor(hexColor: String) -> UIColor {
-    let stringScanner = Scanner(string: hexColor)
-
-    if(hexColor.hasPrefix("#")) {
-      stringScanner.scanLocation = 1
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-    var color: UInt32 = 0
-    stringScanner.scanHexInt32(&color)
-
-    let r = CGFloat(Int(color >> 16) & 0x000000FF)
-    let g = CGFloat(Int(color >> 8) & 0x000000FF)
-    let b = CGFloat(Int(color) & 0x000000FF)
-
-    return UIColor(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: 1)
-  }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if !subviews.isEmpty {
+            sourceView = subviews[0]
+            if disableScrollViewOnPinch {
+                findScrollViewParent()
+            }
+        }
+    }
 }

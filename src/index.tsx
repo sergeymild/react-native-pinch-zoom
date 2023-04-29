@@ -3,7 +3,9 @@ import {
   UIManager,
   Platform,
   ViewStyle,
+  StyleProp,
 } from 'react-native';
+import type { PropsWithChildren } from 'react';
 
 const LINKING_ERROR =
   `The package 'react-native-pinch-zoom' doesn't seem to be linked. Make sure: \n\n` +
@@ -11,10 +13,10 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
 
-type PinchZoomProps = {
-  color: string;
-  style: ViewStyle;
-};
+interface PinchZoomProps extends PropsWithChildren<any> {
+  style?: StyleProp<ViewStyle>;
+  disableScrollViewOnPinch?: boolean;
+}
 
 const ComponentName = 'PinchZoomView';
 

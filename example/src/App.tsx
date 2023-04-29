@@ -1,12 +1,74 @@
 import * as React from 'react';
 
-import { StyleSheet, View } from 'react-native';
+import {
+  Dimensions,
+  findNodeHandle,
+  FlatList,
+  ListRenderItemInfo,
+  StyleSheet,
+  View,
+} from 'react-native';
+import Video from 'react-native-video';
+import FastImage from 'react-native-fast-image';
 import { PinchZoomView } from 'react-native-pinch-zoom';
-
+import { useEffect, useRef } from 'react';
+//http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
 export default function App() {
+  function renderItem(info: ListRenderItemInfo<any>) {
+    let Component: React.ReactNode;
+    if (info.item === 'video') {
+      Component = (
+        <Video
+          resizeMode={'cover'}
+          muted
+          source={{
+            uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+          }}
+          style={{ width: '100%', height: '100%' }}
+        />
+      );
+    }
+
+    if (info.item === 'image') {
+      Component = (
+        <FastImage
+          source={{
+            uri: 'https://en.pimg.jp/054/055/647/1/54055647.jpg',
+          }}
+          resizeMode={'cover'}
+          style={{ width: '100%', height: '100%' }}
+        />
+      );
+    }
+    if (info.item === 'view') {
+      Component = (
+        <View
+          style={{ width: '100%', height: '100%', backgroundColor: 'red' }}
+        />
+      );
+    }
+    return (
+      <PinchZoomView
+        disableScrollViewOnPinch
+        style={{
+          marginBottom: 20,
+          width: Dimensions.get('window').width - 32,
+          height: 400,
+        }}
+      >
+        {Component}
+      </PinchZoomView>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <PinchZoomView color="#32a852" style={styles.box} />
+      <FlatList
+        contentContainerStyle={{ alignItems: 'center' }}
+        data={['image', 'video', 'view']}
+        renderItem={renderItem}
+        style={{ flex: 1 }}
+      />
     </View>
   );
 }
@@ -14,8 +76,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   box: {
     width: 60,

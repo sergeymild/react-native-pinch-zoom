@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5E555C0D2413F4C50049A1A2 /* PinchZoom.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* PinchZoom.m */; };
-		F4FF95D7245B92E800C19C63 /*  PinchZoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /*  PinchZoom.swift */; };
+		8DAF64A729FCDC1E00699BB8 /* PinchZoomViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DAF64A529FCDC1E00699BB8 /* PinchZoomViewManager.m */; };
+		8DAF64A829FCDC1E00699BB8 /* PinchZoomViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DAF64A629FCDC1E00699BB8 /* PinchZoomViewManager.swift */; };
+		8DAF64AA29FCDC4D00699BB8 /* ZoomableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DAF64A929FCDC4D00699BB8 /* ZoomableView.swift */; };
+		8DAF64AC29FCDC6300699BB8 /* ZoomableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DAF64AB29FCDC6300699BB8 /* ZoomableViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,9 +27,11 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libPinchZoom.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPinchZoom.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3E7B5891CC2AC0600A0062D /* PinchZoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinchZoom.m; sourceTree = "<group>"; };
+		8DAF64A529FCDC1E00699BB8 /* PinchZoomViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinchZoomViewManager.m; sourceTree = "<group>"; };
+		8DAF64A629FCDC1E00699BB8 /* PinchZoomViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinchZoomViewManager.swift; sourceTree = "<group>"; };
+		8DAF64A929FCDC4D00699BB8 /* ZoomableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableView.swift; sourceTree = "<group>"; };
+		8DAF64AB29FCDC6300699BB8 /* ZoomableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableViewDelegate.swift; sourceTree = "<group>"; };
 		F4FF95D5245B92E700C19C63 /* PinchZoom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PinchZoom-Bridging-Header.h"; sourceTree = "<group>"; };
-		F4FF95D6245B92E800C19C63 /* PinchZoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchZoom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,9 +56,11 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				F4FF95D6245B92E800C19C63 /* PinchZoom.swift */,
-				B3E7B5891CC2AC0600A0062D /* PinchZoom.m */,
+				8DAF64AB29FCDC6300699BB8 /* ZoomableViewDelegate.swift */,
+				8DAF64A929FCDC4D00699BB8 /* ZoomableView.swift */,
 				F4FF95D5245B92E700C19C63 /* PinchZoom-Bridging-Header.h */,
+				8DAF64A529FCDC1E00699BB8 /* PinchZoomViewManager.m */,
+				8DAF64A629FCDC1E00699BB8 /* PinchZoomViewManager.swift */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -116,8 +122,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4FF95D7245B92E800C19C63 /* PinchZoom.swift in Sources */,
-				B3E7B58A1CC2AC0600A0062D /* PinchZoom.m in Sources */,
+				8DAF64AC29FCDC6300699BB8 /* ZoomableViewDelegate.swift in Sources */,
+				8DAF64A829FCDC1E00699BB8 /* PinchZoomViewManager.swift in Sources */,
+				8DAF64AA29FCDC4D00699BB8 /* ZoomableView.swift in Sources */,
+				8DAF64A729FCDC1E00699BB8 /* PinchZoomViewManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
