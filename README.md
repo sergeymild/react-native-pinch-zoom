@@ -11,7 +11,7 @@ Replicate easily the Instagram zooming feature for React Native
 ## Installation
 
 ```sh
-"react-native-pinch-zoom": "sergeymild/react-native-pinch-zoom#0.0.1"
+"react-native-pinch-zoom": "sergeymild/react-native-pinch-zoom#0.2.0"
 ```
 
 ## Usage
@@ -23,6 +23,8 @@ import { PinchZoomView } from "react-native-pinch-zoom";
 // disableScrollViewOnPinch - prevent scrollView handle scroll events on pinch zoom (only on IOS)
 // doubleTapEnabled - toggle double tap handle event
 // onDoubleTap - callback which will be called on double tap
+// tapEnabled - toggle tap handle event
+// onTap - callback which will be called on tap
 
 <PinchZoomView disableScrollViewOnPinch>
   <Video

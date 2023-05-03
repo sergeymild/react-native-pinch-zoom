@@ -18,6 +18,7 @@ public class ZoomableView: UIView {
     private weak var parentScrollView: UIScrollView?
     
     var onPanDoubleTap: (() -> Void)? = nil
+    var onPanTap: (() -> Void)? = nil
     
     /// Add/remove gesture if the view is/isn't zoomable
     public var isZoomable: Bool = false {
@@ -25,12 +26,14 @@ public class ZoomableView: UIView {
             pinchGesture.map { removeGestureRecognizer($0) }
             panGesture.map { removeGestureRecognizer($0) }
             doubleTapGesture.map { removeGestureRecognizer($0) }
+            tapGesture.map { removeGestureRecognizer($0) }
             if isZoomable {
                 inititialize()
                 isUserInteractionEnabled = true
                 pinchGesture.map { addGestureRecognizer($0) }
                 panGesture.map { addGestureRecognizer($0) }
                 doubleTapGesture.map { addGestureRecognizer($0) }
+                tapGesture.map { addGestureRecognizer($0) }
             }
         }
     }
@@ -38,6 +41,7 @@ public class ZoomableView: UIView {
     /// View's pinch gesture
     public var pinchGesture: UIPinchGestureRecognizer?
     public var doubleTapGesture: UITapGestureRecognizer?
+    public var tapGesture: UITapGestureRecognizer?
 
     /// View's pan gesture
     public var panGesture: UIPanGestureRecognizer?
@@ -82,6 +86,8 @@ public class ZoomableView: UIView {
     private func inititialize() {
         pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(imagePinched(_:)))
         doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(oneTapped))
+        tapGesture?.require(toFail: doubleTapGesture!)
         doubleTapGesture?.numberOfTapsRequired = 2
         pinchGesture?.delegate = self
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(imagePanned(_:)))
@@ -97,6 +103,11 @@ public class ZoomableView: UIView {
     @objc
     private func doubleTapped(_ gesture: UITapGestureRecognizer) {
         onPanDoubleTap?()
+    }
+    
+    @objc
+    private func oneTapped(_ gesture: UITapGestureRecognizer) {
+        onPanTap?()
     }
     
     /// Perform the pinch to zoom if needed.

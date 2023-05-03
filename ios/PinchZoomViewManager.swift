@@ -19,12 +19,26 @@ class PinchZoomView : ZoomableView {
     @objc
     var onDoubleTap: RCTDirectEventBlock? = nil
     @objc
+    var onTap: RCTDirectEventBlock? = nil
+    @objc
     var doubleTapEnabled: Bool = false {
         didSet {
             if !doubleTapEnabled { onPanDoubleTap = nil }
             else {
                 onPanDoubleTap = { [weak self] in
                     self?.onDoubleTap?([:])
+                }
+            }
+        }
+    }
+    
+    @objc
+    var tapEnabled: Bool = false {
+        didSet {
+            if !tapEnabled { onPanTap = nil }
+            else {
+                onPanTap = { [weak self] in
+                    self?.onTap?([:])
                 }
             }
         }
