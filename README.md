@@ -11,7 +11,7 @@ Replicate easily the Instagram zooming feature for React Native
 ## Installation
 
 ```sh
-"react-native-pinch-zoom": "sergeymild/react-native-pinch-zoom#0.3.0"
+"react-native-pinch-zoom": "sergeymild/react-native-pinch-zoom#0.3.1"
 ```
 
 ## Usage
