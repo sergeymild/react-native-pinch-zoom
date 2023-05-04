@@ -2,6 +2,7 @@ package com.pinchzoom
 
 import android.view.View
 import com.ablanco.zoomy.DoubleTapListener
+import com.ablanco.zoomy.TapListener
 import com.ablanco.zoomy.Zoomy
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
@@ -13,7 +14,7 @@ import com.facebook.react.uimanager.annotations.ReactProp
 import com.facebook.react.uimanager.events.RCTEventEmitter
 
 
-class PinchZoomViewManager : ViewGroupManager<PinchZoomView>(), DoubleTapListener {
+class PinchZoomViewManager : ViewGroupManager<PinchZoomView>(), DoubleTapListener, TapListener {
   override fun getName() = "PinchZoomView"
 
   override fun createViewInstance(reactContext: ThemedReactContext): PinchZoomView {
@@ -25,16 +26,25 @@ class PinchZoomViewManager : ViewGroupManager<PinchZoomView>(), DoubleTapListene
     view.doubleTapEnabled = value
   }
 
+  @ReactProp(name = "tapEnabled")
+  fun tapEnabled(view: PinchZoomView, value: Boolean) {
+    view.tapEnabled = value
+  }
+
   override fun addView(parent: PinchZoomView, child: View, index: Int) {
     super.addView(parent, child, index)
     val activity = (parent.context as ThemedReactContext).currentActivity
-    val builder = Zoomy.Builder(activity).doubleTapListener(this).target(child)
+    val builder = Zoomy.Builder(activity)
+      .doubleTapListener(this)
+      .tapListener(this)
+      .target(child)
     builder.register()
   }
 
   override fun getExportedCustomDirectEventTypeConstants(): MutableMap<String, Any> {
     return MapBuilder.builder<String, Any>()
       .put("onDoubleTap", MapBuilder.of("registrationName", "onDoubleTap"))
+      .put("onTap", MapBuilder.of("registrationName", "onTap"))
       .build()
   }
 
@@ -45,6 +55,13 @@ class PinchZoomViewManager : ViewGroupManager<PinchZoomView>(), DoubleTapListene
     (v.context as ThemedReactContext).sendEventToJs(id, "onDoubleTap")
   }
 
+
+  override fun onTap(v: View) {
+    val zoomView = v.parent as PinchZoomView
+    if (!zoomView.tapEnabled) return
+    val id = zoomView.id
+    (v.context as ThemedReactContext).sendEventToJs(id, "onTap")
+  }
 
   fun ReactContext.sendEventToJs(
     viewId: Int,

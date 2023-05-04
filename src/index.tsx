@@ -17,6 +17,9 @@ interface PinchZoomProps extends PropsWithChildren<any> {
   style?: StyleProp<ViewStyle>;
   disableScrollViewOnPinch?: boolean;
   doubleTapEnabled?: boolean;
+  tapEnabled?: boolean;
+  onDoubleTap?: () => void;
+  onTap?: () => void;
 }
 
 const ComponentName = 'PinchZoomView';

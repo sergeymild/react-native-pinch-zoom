@@ -5,4 +5,5 @@ import com.facebook.react.views.view.ReactViewGroup
 
 class PinchZoomView(context: Context?) : ReactViewGroup(context) {
   var doubleTapEnabled: Boolean = false
+  var tapEnabled: Boolean = false
 }

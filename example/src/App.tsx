@@ -55,6 +55,10 @@ export default function App() {
       <PinchZoomView
         disableScrollViewOnPinch
         doubleTapEnabled={true}
+        tapEnabled={true}
+        onTap={() => {
+          console.log('[App.]', 'tappp');
+        }}
         onDoubleTap={() => console.log('[============----.]')}
         style={{
           marginBottom: 20,
