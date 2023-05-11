@@ -21,16 +21,6 @@ class PinchZoomViewManager : ViewGroupManager<PinchZoomView>(), DoubleTapListene
     return PinchZoomView(reactContext)
   }
 
-  @ReactProp(name = "doubleTapEnabled")
-  fun doubleTapEnabled(view: PinchZoomView, value: Boolean) {
-    view.doubleTapEnabled = value
-  }
-
-  @ReactProp(name = "tapEnabled")
-  fun tapEnabled(view: PinchZoomView, value: Boolean) {
-    view.tapEnabled = value
-  }
-
   override fun addView(parent: PinchZoomView, child: View, index: Int) {
     super.addView(parent, child, index)
     val activity = (parent.context as ThemedReactContext).currentActivity
@@ -50,7 +40,6 @@ class PinchZoomViewManager : ViewGroupManager<PinchZoomView>(), DoubleTapListene
 
   override fun onDoubleTap(v: View) {
     val zoomView = v.parent as PinchZoomView
-    if (!zoomView.doubleTapEnabled) return
     val id = zoomView.id
     (v.context as ThemedReactContext).sendEventToJs(id, "onDoubleTap")
   }
@@ -58,7 +47,6 @@ class PinchZoomViewManager : ViewGroupManager<PinchZoomView>(), DoubleTapListene
 
   override fun onTap(v: View) {
     val zoomView = v.parent as PinchZoomView
-    if (!zoomView.tapEnabled) return
     val id = zoomView.id
     (v.context as ThemedReactContext).sendEventToJs(id, "onTap")
   }

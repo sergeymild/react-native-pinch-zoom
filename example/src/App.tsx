@@ -21,6 +21,8 @@ export default function App() {
     if (info.item === 'video') {
       Component = (
         <Video
+          autoplay={false}
+          paused
           resizeMode={'cover'}
           muted
           source={{
@@ -54,12 +56,10 @@ export default function App() {
     return (
       <PinchZoomView
         disableScrollViewOnPinch
-        doubleTapEnabled={true}
-        tapEnabled={true}
         onTap={() => {
-          console.log('[App.]', 'tappp');
+          console.log('=================== onn js');
         }}
-        onDoubleTap={() => console.log('[============----.]')}
+        onDoubleTap={() => console.log('=================== do js')}
         style={{
           marginBottom: 20,
           width: Dimensions.get('window').width - 32,

@@ -17,29 +17,18 @@ class PinchZoomView : ZoomableView {
     @objc
     var disableScrollViewOnPinch: Bool = false
     @objc
-    var onDoubleTap: RCTDirectEventBlock? = nil
-    @objc
-    var onTap: RCTDirectEventBlock? = nil
-    @objc
-    var doubleTapEnabled: Bool = false {
+    var onDoubleTap: RCTDirectEventBlock? = nil {
         didSet {
-            if !doubleTapEnabled { onPanDoubleTap = nil }
-            else {
-                onPanDoubleTap = { [weak self] in
-                    self?.onDoubleTap?([:])
-                }
+            onPanDoubleTap = { [weak self] in
+                self?.onDoubleTap?([:])
             }
         }
     }
-    
     @objc
-    var tapEnabled: Bool = false {
+    var onTap: RCTDirectEventBlock? = nil {
         didSet {
-            if !tapEnabled { onPanTap = nil }
-            else {
-                onPanTap = { [weak self] in
-                    self?.onTap?([:])
-                }
+            onPanTap = { [weak self] in
+                self?.onTap?([:])
             }
         }
     }
