@@ -100,13 +100,22 @@ public class ZoomableView: UIView {
         )
     }
     
+    private func shouldSkip(_ gesture: UITapGestureRecognizer) -> Bool {
+        let view = gesture.view
+        let loc = gesture.location(in: view)
+        let subview = view?.hitTest(loc, with: nil) // note: it is a `UIView?`
+        return subview?.nativeID == "pinchZoomTapSkippable"
+    }
+    
     @objc
     private func doubleTapped(_ gesture: UITapGestureRecognizer) {
+        if shouldSkip(gesture) { return }
         onPanDoubleTap?()
     }
     
     @objc
     private func oneTapped(_ gesture: UITapGestureRecognizer) {
+        if shouldSkip(gesture) { return }
         onPanTap?()
     }
     
