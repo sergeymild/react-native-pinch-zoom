@@ -23,6 +23,7 @@ import { PinchZoomView } from "react-native-pinch-zoom";
 // disableScrollViewOnPinch - prevent scrollView handle scroll events on pinch zoom (only on IOS)
 // onDoubleTap - callback which will be called on double tap
 // onTap - callback which will be called on tap
+// disabledPinchZoom - togglePinchZoom
 
 <PinchZoomView disableScrollViewOnPinch>
   <Video

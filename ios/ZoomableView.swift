@@ -11,29 +11,24 @@ public class ZoomableView: UIView {
     public weak var delegate: ZoomableViewDelegate?
     /// Enable/Disable zoom ability
     public var isEnableZoom = true
-    
+
     /// View's zoom status
     public var isZooming = false
     private var beginSourceViewFrame: CGRect?
     private weak var parentScrollView: UIScrollView?
-    
+
     var onPanDoubleTap: (() -> Void)? = nil
     var onPanTap: (() -> Void)? = nil
-    
+
     /// Add/remove gesture if the view is/isn't zoomable
     public var isZoomable: Bool = false {
         didSet {
             pinchGesture.map { removeGestureRecognizer($0) }
             panGesture.map { removeGestureRecognizer($0) }
-            doubleTapGesture.map { removeGestureRecognizer($0) }
-            tapGesture.map { removeGestureRecognizer($0) }
             if isZoomable {
                 inititialize()
-                isUserInteractionEnabled = true
                 pinchGesture.map { addGestureRecognizer($0) }
                 panGesture.map { addGestureRecognizer($0) }
-                doubleTapGesture.map { addGestureRecognizer($0) }
-                tapGesture.map { addGestureRecognizer($0) }
             }
         }
     }
@@ -45,20 +40,20 @@ public class ZoomableView: UIView {
 
     /// View's pan gesture
     public var panGesture: UIPanGestureRecognizer?
-    
+
     /// View's background when zooming
     public var backgroundView: UIView?
-    
+
     /// ZoomableView is the superview of sourceView which will be zoomed when the gestures recognize
     /// sourceView is needed to set reference so as to be zoomed
     public var sourceView: UIView?
-    
+
     /// The rate between UIPinchGestureRecognizer and Zoomable scale
     public var scaleRate: CGFloat = 1.0
-    
+
     /// View's scale
     private var scale: CGFloat = 1.0
-    
+
     func findScrollViewParent() {
         if parentScrollView != nil { return }
         var parent = superview
@@ -67,7 +62,22 @@ public class ZoomableView: UIView {
         }
         parentScrollView = parent as? UIScrollView
     }
-    
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        isUserInteractionEnabled = true
+        doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(oneTapped))
+        tapGesture?.require(toFail: doubleTapGesture!)
+        doubleTapGesture?.numberOfTapsRequired = 2
+        doubleTapGesture.map { addGestureRecognizer($0) }
+        tapGesture.map { addGestureRecognizer($0) }
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     /// Background view when the view is zooming
     private func getBackgroundView() -> UIView {
         // default background view
@@ -85,10 +95,6 @@ public class ZoomableView: UIView {
     /// Initialize pinch & pan gestures
     private func inititialize() {
         pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(imagePinched(_:)))
-        doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(oneTapped))
-        tapGesture?.require(toFail: doubleTapGesture!)
-        doubleTapGesture?.numberOfTapsRequired = 2
         pinchGesture?.delegate = self
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(imagePanned(_:)))
         panGesture?.delegate = self
@@ -99,17 +105,26 @@ public class ZoomableView: UIView {
             object: nil
         )
     }
-    
+
+    private func shouldSkip(_ gesture: UITapGestureRecognizer) -> Bool {
+        let view = gesture.view
+        let loc = gesture.location(in: view)
+        let subview = view?.hitTest(loc, with: nil) // note: it is a `UIView?`
+        return subview?.nativeID == "pinchZoomTapSkippable"
+    }
+
     @objc
     private func doubleTapped(_ gesture: UITapGestureRecognizer) {
+        if shouldSkip(gesture) { return }
         onPanDoubleTap?()
     }
-    
+
     @objc
     private func oneTapped(_ gesture: UITapGestureRecognizer) {
+        if shouldSkip(gesture) { return }
         onPanTap?()
     }
-    
+
     /// Perform the pinch to zoom if needed.
     ///
     /// - Parameter sender: UIPinchGestureRecognizer
@@ -138,7 +153,7 @@ public class ZoomableView: UIView {
             transform(withTranslation: pan.translation(in: self))
         }
     }
-    
+
     /// Set the image back to it's initial state.
     @objc func reset() {
         scale = 1.0

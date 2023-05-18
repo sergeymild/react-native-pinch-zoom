@@ -74,7 +74,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <FlatList
-        contentContainerStyle={{ alignItems: 'center' }}
+        contentContainerStyle={{ alignItems: 'center', paddingBottom: 100 }}
         data={['image', 'video', 'view']}
         renderItem={renderItem}
         style={{ flex: 1 }}

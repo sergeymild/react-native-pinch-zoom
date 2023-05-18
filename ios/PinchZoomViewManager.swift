@@ -15,6 +15,13 @@ class PinchZoomViewManager: RCTViewManager {
 @objc
 class PinchZoomView : ZoomableView {
     @objc
+    var disabledPinchZoom: Bool = false {
+        didSet {
+            isZoomable = !disabledPinchZoom
+            isEnableZoom = !disabledPinchZoom
+        }
+    }
+    @objc
     var disableScrollViewOnPinch: Bool = false
     @objc
     var onDoubleTap: RCTDirectEventBlock? = nil {

@@ -6,6 +6,7 @@ import com.ablanco.zoomy.TapListener
 import com.ablanco.zoomy.Zoomy
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
+import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.common.MapBuilder
 import com.facebook.react.uimanager.ThemedReactContext
@@ -36,6 +37,11 @@ class PinchZoomViewManager : ViewGroupManager<PinchZoomView>(), DoubleTapListene
       .put("onDoubleTap", MapBuilder.of("registrationName", "onDoubleTap"))
       .put("onTap", MapBuilder.of("registrationName", "onTap"))
       .build()
+  }
+
+  @ReactProp(name = "disabledPinchZoom")
+  fun setDisabledPinchZoom(view: PinchZoomView, isDisabled: Boolean) {
+    view.disabledPinchZoom = isDisabled
   }
 
   override fun onDoubleTap(v: View) {
