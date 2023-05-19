@@ -15,7 +15,7 @@ public class ZoomableView: UIView {
     /// View's zoom status
     public var isZooming = false
     private var beginSourceViewFrame: CGRect?
-    private weak var parentScrollView: UIScrollView?
+    private var parentScrollView: [UIScrollView] = []
 
     var onPanDoubleTap: (() -> Void)? = nil
     var onPanTap: (() -> Void)? = nil
@@ -55,12 +55,14 @@ public class ZoomableView: UIView {
     private var scale: CGFloat = 1.0
 
     func findScrollViewParent() {
-        if parentScrollView != nil { return }
+        if !parentScrollView.isEmpty { return }
         var parent = superview
-        while parent != nil && !(parent is UIScrollView) {
+        while parent != nil {
             parent = parent?.superview
+            if (parent is UIScrollView) {
+                parentScrollView.append(parent as! UIScrollView)
+            }
         }
-        parentScrollView = parent as? UIScrollView
     }
 
     override init(frame: CGRect) {
@@ -131,7 +133,7 @@ public class ZoomableView: UIView {
     private func imagePinched(_ pinch: UIPinchGestureRecognizer) {
         if !isEnableZoom { return }
         if pinch.state == .began {
-            parentScrollView?.isScrollEnabled = false
+            parentScrollView.forEach { $0.isScrollEnabled = false }
             beginSourceViewFrame = sourceView!.frame
             isZooming = true
             UIApplication.shared.getKeyWindow()?.addSubview(getBackgroundView())
@@ -156,7 +158,7 @@ public class ZoomableView: UIView {
     /// Set the image back to it's initial state.
     @objc func reset() {
         scale = 1.0
-        parentScrollView?.isScrollEnabled = true
+        parentScrollView.forEach { $0.isScrollEnabled = true }
         self.backgroundView?.backgroundColor = .clear
         UIView.animate(
             withDuration: 0.35,
@@ -185,6 +187,10 @@ public class ZoomableView: UIView {
         transform = CATransform3DScale(transform, scale, scale, 1.0)
         transform = CATransform3DTranslate(transform, translation.x, translation.y, 0)
         sourceView?.layer.transform = transform
+    }
+    
+    deinit {
+        parentScrollView.removeAll()
     }
 }
 
