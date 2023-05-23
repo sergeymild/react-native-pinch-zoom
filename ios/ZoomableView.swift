@@ -140,11 +140,12 @@ public class ZoomableView: UIView {
             delegate?.zoomableViewDidZoom(self)
         }
         if pinch.state == .changed, pinch.scale >= 1.0 {
-            scale = pinch.scale * scaleRate
+            scale = min(pinch.scale * scaleRate, 3)
             transform(withTranslation: .zero)
         }
-        if pinch.state != .ended { return }
-        reset()
+        if pinch.state == .ended || pinch.state == .cancelled {
+            reset()
+        }
     }
 
     /// Perform the panning if needed
@@ -188,7 +189,7 @@ public class ZoomableView: UIView {
         transform = CATransform3DTranslate(transform, translation.x, translation.y, 0)
         sourceView?.layer.transform = transform
     }
-    
+
     deinit {
         parentScrollView.removeAll()
     }
