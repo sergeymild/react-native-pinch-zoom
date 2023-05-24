@@ -7,6 +7,13 @@
 
 import UIKit
 
+class Weak<T: AnyObject> {
+  weak var value : T?
+  init (value: T) {
+    self.value = value
+  }
+}
+
 public class ZoomableView: UIView {
     public weak var delegate: ZoomableViewDelegate?
     /// Enable/Disable zoom ability
@@ -15,7 +22,7 @@ public class ZoomableView: UIView {
     /// View's zoom status
     public var isZooming = false
     private var beginSourceViewFrame: CGRect?
-    private var parentScrollView: [UIScrollView] = []
+    private var parentScrollView: [Weak<UIScrollView>] = []
 
     var onPanDoubleTap: (() -> Void)? = nil
     var onPanTap: (() -> Void)? = nil
@@ -60,7 +67,7 @@ public class ZoomableView: UIView {
         while parent != nil {
             parent = parent?.superview
             if (parent is UIScrollView) {
-                parentScrollView.append(parent as! UIScrollView)
+                parentScrollView.append(.init(value: parent as! UIScrollView))
             }
         }
     }
@@ -133,7 +140,7 @@ public class ZoomableView: UIView {
     private func imagePinched(_ pinch: UIPinchGestureRecognizer) {
         if !isEnableZoom { return }
         if pinch.state == .began {
-            parentScrollView.forEach { $0.isScrollEnabled = false }
+            parentScrollView.forEach { $0.value?.isScrollEnabled = false }
             beginSourceViewFrame = sourceView!.frame
             isZooming = true
             UIApplication.shared.getKeyWindow()?.addSubview(getBackgroundView())
@@ -159,7 +166,7 @@ public class ZoomableView: UIView {
     /// Set the image back to it's initial state.
     @objc func reset() {
         scale = 1.0
-        parentScrollView.forEach { $0.isScrollEnabled = true }
+        parentScrollView.forEach { $0.value?.isScrollEnabled = true }
         self.backgroundView?.backgroundColor = .clear
         UIView.animate(
             withDuration: 0.35,
@@ -186,7 +193,7 @@ public class ZoomableView: UIView {
     private func transform(withTranslation translation: CGPoint) {
         var transform = CATransform3DIdentity
         transform = CATransform3DScale(transform, scale, scale, 1.0)
-        transform = CATransform3DTranslate(transform, translation.x, translation.y, 0)
+        transform = CATransform3DTranslate(transform, translation.x * 0.8, translation.y * 0.8, 0)
         sourceView?.layer.transform = transform
     }
 
